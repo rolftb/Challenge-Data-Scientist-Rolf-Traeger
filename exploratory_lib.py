@@ -1,5 +1,5 @@
 # exploratory_lib.py
-
+import numpy as np
 import pandas as pd
 #=====================
 # Se Cargan los datos 
@@ -134,3 +134,46 @@ def additional_columns(df_in,col_name_i ="Fecha-I",col_name_0 ="Fecha-O"):
     # =====================
     df_out["delay_15"] = df_out["min_diff"].apply( lambda x: 1 if x >15 else 0 )
     return df_out
+
+
+def columns_cast(df_x,columns_list,str_cast_type):
+    """
+    Permite setear las columnas para un mismo formato
+    """
+    for i in columns_list:
+        df_x[i] = df_x[i].astype(str_cast_type)
+    print(df_x.dtypes)
+
+def group_by_col(df,list_group_in,col_id):
+    df_out =\
+        df[[col_id]+list_group_in]\
+            .groupby(list_group_in).count()
+    df_out = \
+        df_out\
+            .rename(columns={col_id:"count_reg"})
+    df_out =\
+        df_out\
+            .sort_values(by = "count_reg",ascending= False)
+    return df_out
+
+def df_groupby_subtotal(df_in,list_group_in):
+    g_df_t= (df_in[["id_vuelo"]
+                +list_group_in[:len(list_group_in)-1]]
+            .groupby(list_group_in[:len(list_group_in)-1]).count())
+    g_df = df_in[["id_vuelo"]+list_group_in
+                 ].groupby(list_group_in).count()
+    g_df = pd.merge(left=g_df.reset_index(),
+                    right=g_df_t.reset_index(),
+                    how="left",
+                    left_on=list_group_in[:len(list_group_in)-1],
+                    right_on=list_group_in[:len(list_group_in)-1]
+                    )
+    g_df= g_df.rename(columns={
+                "id_vuelo_x": "subtotal",
+                "id_vuelo_y": "total",
+                })
+    g_df["porcentaje en %"] =  np.round(g_df["subtotal"]/g_df["total"] *100,2)
+    g_df =\
+        g_df\
+            .sort_values(by = "total",ascending= False)
+    return g_df
