@@ -37,6 +37,8 @@ Columns in `data\dataset_SCL.csv`:
 "SIGLADES" : "Destination city name"
 ```
 
+A modo de resumen los atributos que posee  `-I` definen el valor programado originalmente, y los atributos Acompañados por un `-O` son los atributos que resultaron finalmente, tras realizado el vuelo. esto se refleja directamente en las columnas `"Fecha-I"` y `"Fecha-O"` y la logica para el cálculo del `min_diff`
+
 Columns to make:
 
 ```python
