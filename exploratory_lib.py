@@ -177,3 +177,30 @@ def df_groupby_subtotal(df_in,list_group_in):
         g_df\
             .sort_values(by = "total",ascending= False)
     return g_df
+
+def col_holidays_season(date_x):
+    Año_actual= date_x.year
+
+    # Between Dec-15 and Mar-3
+    verano_start = convert_to_date( f"{Año_actual}-12-15 00:00:00") 
+    verano_end = convert_to_date( f"{Año_actual}-3-4 00:00:00")
+    bool_verano_1 = (
+            (verano_end > date_x )
+            |(date_x >verano_start)
+            )
+    # Jul-15 and Jul-31, 
+    invierno_start = convert_to_date( f"{Año_actual}-7-15 00:00:00") 
+    invierno_end = convert_to_date( f"{Año_actual}-8-1 00:00:00")
+    bool_invierno = (invierno_end > date_x >invierno_start)
+    # Sep-11 and Sep-30
+    sep_start = convert_to_date( f"{Año_actual}-9-11 00:00:00") 
+    sep_end = convert_to_date( f"{Año_actual}-10-1 00:00:00")
+    bool_sep = (sep_end > date_x >sep_start)
+    if bool_verano_1:
+        return "verano"
+    elif bool_invierno:
+        return "invierno"
+    elif bool_sep:
+        return "septiembre"
+    else:
+        return "laboral"
