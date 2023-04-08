@@ -2,12 +2,6 @@
 
 Work about predicting the probability of delay of the ﬂights that land or take oﬀ from the airport of Santiago de Chile  (SCL). `delay_15` reflect if the flight was a delay or not.
 
-## Índice o Proceso de trabajo
-
-1. Definición del problema
-2. Librearias utilizadas
-3. Data de estudio
-4. Columnas a utilizar
 
 ## Definición del problema
 
