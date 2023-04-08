@@ -217,3 +217,66 @@ def df_filter_count_for_category(df_full,col_1,index_col ="id_vuelo",count_len =
     #  Filtrado seún el top
     df_filter = df_filter[ df_filter[col_1].isin(list_top_col_1)]
     return df_filter
+
+from scipy.stats import chi2_contingency
+# Relacion entre el Delay y las columnas del dataframe
+def chi_cuadrado_func(df_in,
+                      col_x_in, # array
+                      y_col_in,
+                      str_tipe = "int64"
+                      ):
+    """
+    Funcion que entrega la parametria
+    """
+    df = df_in.copy()
+    array_df_x=[
+    df[i]  for i in col_x_in
+    ]
+    contingency_table = pd.crosstab( array_df_x , df[y_col_in].astype(str_tipe))
+
+    # Realizar el test de chi-cuadrado
+    chi2, p, dof, expected = chi2_contingency(contingency_table)
+
+    # Imprimir los resultados
+    # print('Chi-cuadrado:', chi2)
+    # print('p-valor:', p)
+    # print('Grados de libertad:', dof)
+    # print('Valores esperados:', expected)
+    return [chi2, p, dof]
+
+# Cada feature independientemente
+def dataframe_chi_sqr(df_work,col_x_lsit,y_col_in):
+    chi_de_i = {i : chi_cuadrado_func(df_work, [i] ,y_col_in)
+    for i in col_x_lsit }
+    df_chi_cuadrado=pd.DataFrame({
+        "columna" : col_x_lsit,
+        "Chi-cuadrad": [ chi_de_i[i][0] for i in col_x_lsit],
+        "p-valor": [ chi_de_i[i][1] for i in col_x_lsit],
+        "Grados_de_libertad" : [ chi_de_i[i][2] for i in col_x_lsit],
+    })
+    df_chi_cuadrado=\
+                df_chi_cuadrado.sort_values(by = "p-valor",ascending= True)
+    order_col =df_chi_cuadrado.columna.unique()
+    print(order_col)
+    return df_chi_cuadrado
+
+
+# REllenado de valores faltantes con datos promedio
+def condition_fill(df_mean_val,df, col_name ,col_merge = "mes_name"):
+    # print(#df_mean_val,
+    # df, col_name ,col_merge)
+    if np.isnan(df[col_name]):
+        m_val =df[col_merge]
+        return df_mean_val[df_mean_val[col_merge] == m_val][col_name].iloc[0]
+    else:
+        return df[col_name]
+
+def fill_col(df,df_fill_mean,col_name):
+    # print(df,df_fill_mean,col_name)
+    df_out = df.copy()
+    df_out[col_name] = \
+        df_out\
+            .apply(lambda dfx: (
+                            condition_fill(df_fill_mean, dfx ,col_name)), 
+                            axis = 1)
+    return df_out
