@@ -85,5 +85,3 @@ Tomando en cuenta que los atributos presentes en el archivo inicial representan 
 
 Se realizó un filtrado doble sobre los datos, donde en primer lugar se eliminarón de los registros todos los vuelos a destinos con menos del mil registros en el DF. Luego se realizó el mismo filtro sobre los operadores y por último nuevamente sobre las ciudades de destino, quedando así con 7 compañias y 18 ciudades de destino.
 pese a ello se abordo al rededor de l 80% de los datos entregados inicialmente.
-
-## 
