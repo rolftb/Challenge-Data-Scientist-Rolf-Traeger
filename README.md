@@ -53,10 +53,37 @@ conda install scikit-learn
 conda install -c anaconda git
 ```
 
+- conda install plotnine
+    > Graficador configurable con amplia gama de graficos y temas
+- conda install pandas
+    > Gestor de dataframes
+- conda install scikit-learn
+    > Libreria de modelos predictivos
+- conda install -c anaconda git
+    > Libreria que habilita la gestion de repositorios.
+
+
 ## Data de estudio
 
 Toda la data a utilizar se encuentra en la carpeta `...\data\`
 
+Se incorporó además de la data propuesta para el desafio, información meteorologica de todo el año 2017, la cual está particionada a nivel hora, debido a que esta información no existe para todos los registros, se utilizó el promedio del mes que se realizó el vuelo para rellenar la información faltante de cada vuelo.
+
 ## Columnas a utilizar
 
 Tomando en cuenta que existen varias columnas que reflejan lo mismo o informaicón que representa el futuro como `Fecha-O` o el atributo construido `min_diff`, se debe reducir las columnas que ensucien el proceso y que no influyan sobre `delay_15`.
+
+## Procesamiento de datos
+
+Se definieron las principales transformaciones para el data frame probeniente del archivo dataset_SCL.csv en la libreria `exploratory_lib.py`. Este archivo python es utilizado para guardar las funciones, procedimiento y clases más repetitivos.
+
+## Atributos de interes
+
+Tomando en cuenta que los atributos presentes en el archivo inicial representan la misma información o no es relevante para predecir los atrasos se seleccionarón los más influyente por un analisis cualitativo y un analizis de Chi-cuadrado.
+
+## Data utilizada para el estudio
+
+Se realizó un filtrado doble sobre los datos, donde en primer lugar se eliminarón de los registros todos los vuelos a destinos con menos del mil registros en el DF. Luego se realizó el mismo filtro sobre los operadores y por último nuevamente sobre las ciudades de destino, quedando así con 7 compañias y 18 ciudades de destino.
+pese a ello se abordo al rededor de l 80% de los datos entregados inicialmente.
+
+## 
