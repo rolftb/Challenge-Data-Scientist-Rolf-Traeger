@@ -204,3 +204,16 @@ def col_holidays_season(date_x):
         return "septiembre"
     else:
         return "laboral"
+    
+def df_filter_count_for_category(df_full,col_1,index_col ="id_vuelo",count_len = 1000):
+    df_filter = df_full.copy()
+
+    df_col_1 = group_by_col(df_filter,[col_1],index_col).reset_index()
+    list_top_col_1 = (df_col_1[
+                df_col_1["count_reg"] >=count_len
+                ]
+                [col_1]
+                    .unique().tolist())
+    #  Filtrado seún el top
+    df_filter = df_filter[ df_filter[col_1].isin(list_top_col_1)]
+    return df_filter
